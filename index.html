@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flak Happy Films — TURRET</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Special+Elite&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════════════════
+   RESET
+═══════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:16px;}
+body{overflow-x:hidden;font-family:'Cormorant Garamond',Georgia,serif;}
+
+/* ═══════════════════════════════════════════
+   PALETTES
+═══════════════════════════════════════════ */
+:root{
+  /* Flak Happy — linen, JFK navy, mid-century authority */
+  --fh-linen:   #f0ebe0;
+  --fh-vellum:  #e4dccb;
+  --fh-parch:   #d0c4ae;
+  --fh-warm:    #9a9080;
+  --fh-slate:   #576070;
+  --fh-navy:    #1c2840;
+  --fh-jfk:     #2e4060;
+  --fh-ink:     #141210;
+  --fh-rule:    rgba(28,40,64,0.11);
+  --fh-rule2:   rgba(28,40,64,0.22);
+
+  /* TURRET — void, smoke, rust, olive, chrome, gunner yellow */
+  --t-void:     #060504;
+  --t-deep:     #0c0a07;
+  --t-smoke:    #141008;
+  --t-char:     #1c1610;
+  --t-plate:    #252018;
+  --t-rust:     #721e06;
+  --t-rust2:    #962e0e;
+  --t-olive:    #363b1e;
+  --t-olive2:   #4a5028;
+  --t-chrome:   #7a8490;
+  --t-chrome2:  #a0aeb8;
+  --t-yellow:   #be9a0c;
+  --t-yellow2:  #d8ac1e;
+  --t-cream:    #c8bca8;
+  --t-aged:     #847460;
+  --t-tan:      #5e4e3c;
+}
+
+/* Grain */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9000;
+  opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+
+/* ═══════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════ */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:700;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:28px 6vw;
+  transition:padding .5s ease,background .5s ease,border-color .5s ease,box-shadow .5s ease;
+  border-bottom:1px solid transparent;
+}
+#nav.is-light.scrolled{
+  padding:15px 6vw;
+  background:rgba(240,235,224,.97);
+  border-bottom-color:var(--fh-rule2);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 24px rgba(28,40,64,.06);
+}
+#nav.is-dark.scrolled{
+  padding:15px 6vw;
+  background:rgba(12,10,7,.97);
+  border-bottom-color:rgba(192,152,14,.18);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 24px rgba(0,0,0,.5);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:.72rem;letter-spacing:.4em;text-transform:uppercase;text-decoration:none;
+  transition:color .5s;
+}
+#nav.is-light .nav-logo{color:var(--fh-navy);}
+#nav.is-dark  .nav-logo{color:var(--t-yellow2);}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;
+  transition:color .25s;
+}
+#nav.is-light .nav-links a{color:var(--fh-slate);}
+#nav.is-light .nav-links a:hover{color:var(--fh-navy);}
+#nav.is-dark  .nav-links a{color:var(--t-aged);}
+#nav.is-dark  .nav-links a:hover{color:var(--t-yellow2);}
+.nav-cta{
+  font-family:'Cormorant Garamond',serif;font-weight:500;
+  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  text-decoration:none;padding:9px 22px;border:1px solid;
+  transition:all .25s;cursor:pointer;background:transparent;
+}
+#nav.is-light .nav-cta{color:var(--fh-navy);border-color:var(--fh-navy);}
+#nav.is-light .nav-cta:hover{background:var(--fh-navy);color:var(--fh-linen);}
+#nav.is-dark  .nav-cta{color:var(--t-yellow2);border-color:var(--t-yellow2);}
+#nav.is-dark  .nav-cta:hover{background:var(--t-yellow2);color:var(--t-void);}
+
+/* ═══════════════════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════════════════ */
+.rv{opacity:1;transform:translateY(0);}
+.rv.in{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}
+.d3{transition-delay:.32s;}.d4{transition-delay:.46s;}.d5{transition-delay:.62s;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══════════════════════════════════════════
+   ████  FLAK HAPPY FILMS — LIGHT WORLD  ████
+═══════════════════════════════════════════ */
+
+/* Hero */
+#fh-hero{
+  background:var(--fh-linen);min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:140px 6vw 100px;
+  position:relative;overflow:hidden;
+}
+#fh-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(0deg,
+    transparent,transparent 31px,
+    rgba(28,40,64,.022) 31px,rgba(28,40,64,.022) 32px);
+}
+.fh-orn{
+  display:flex;align-items:center;gap:18px;margin-bottom:44px;
+  opacity:1;
+}
+.fh-orn-line{width:56px;height:1px;background:var(--fh-rule2);}
+.fh-orn-text{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:.62rem;letter-spacing:.55em;text-transform:uppercase;color:var(--fh-jfk);
+}
+.fh-name{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(3rem,7vw,6.8rem);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--fh-navy);line-height:1;margin-bottom:8px;
+  opacity:1;
+}
+.fh-name span{
+  display:block;font-size:.28em;letter-spacing:.55em;
+  color:var(--fh-jfk);font-weight:400;margin-bottom:16px;
+}
+.fh-tagline{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:clamp(1.1rem,2vw,1.5rem);color:var(--fh-slate);
+  letter-spacing:.04em;max-width:520px;line-height:1.75;margin:0 auto 52px;
+  opacity:1;
+}
+.fh-rule-drop{
+  width:1px;height:62px;
+  background:linear-gradient(to bottom,var(--fh-navy),transparent);
+  margin:0 auto;opacity:1;
+}
+
+/* About */
+#fh-about{
+  background:var(--fh-linen);padding:120px 6vw;
+  border-top:1px solid var(--fh-rule);
+}
+.fh-grid{
+  display:grid;grid-template-columns:1fr 1.6fr;gap:100px;
+  align-items:start;max-width:1200px;margin:0 auto;
+}
+.fh-label{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:.62rem;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--fh-jfk);margin-bottom:18px;
+}
+.fh-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(2.2rem,4vw,3.8rem);color:var(--fh-navy);
+  line-height:1.1;letter-spacing:.04em;
+}
+.fh-title em{font-style:italic;font-weight:300;color:var(--fh-jfk);}
+.fh-body p{
+  font-size:1.12rem;line-height:2;color:var(--fh-slate);
+  margin-bottom:22px;font-weight:300;
+}
+.fh-body p:first-child{font-size:1.28rem;color:var(--fh-ink);font-weight:400;}
+.fh-body strong{font-weight:600;color:var(--fh-navy);}
+.fh-divider{width:100%;height:1px;background:var(--fh-rule);margin:52px 0;}
+.fh-creds{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;}
+.fh-cred-n{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:2.8rem;color:var(--fh-navy);line-height:1;margin-bottom:5px;
+}
+.fh-cred-l{
+  font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--fh-warm);font-family:'Cormorant Garamond',serif;font-weight:400;
+}
+
+/* Bridge */
+#fh-bridge{
+  background:var(--fh-vellum);padding:100px 6vw;
+  border-top:1px solid var(--fh-rule);text-align:center;
+}
+.fh-bridge-inner{max-width:720px;margin:0 auto;}
+.fh-bridge-lbl{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:.62rem;letter-spacing:.55em;text-transform:uppercase;
+  color:var(--fh-jfk);margin-bottom:26px;
+}
+.fh-bridge-p{
+  font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;
+  font-size:clamp(1.15rem,2.2vw,1.6rem);color:var(--fh-slate);
+  line-height:1.7;margin-bottom:44px;
+}
+.fh-bridge-p strong{font-style:normal;font-weight:600;color:var(--fh-navy);}
+.fh-enter{
+  display:inline-block;
+  font-family:'Cormorant Garamond',serif;font-weight:500;
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--fh-navy);border:1px solid var(--fh-navy);
+  padding:12px 32px;text-decoration:none;
+  transition:all .25s;
+}
+.fh-enter:hover{background:var(--fh-navy);color:var(--fh-linen);}
+
+/* THE CUT */
+.the-cut{height:5px;background:var(--t-void);position:relative;z-index:10;}
+
+/* ═══════════════════════════════════════════
+   ████  T U R R E T — DARK WORLD  ████
+═══════════════════════════════════════════ */
+
+/* Hero */
+#t-hero{
+  background:var(--t-void);min-height:100vh;
+  position:relative;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:0 6vw 11vh;overflow:hidden;
+}
+.t-sky{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 140% 52% at 50% 0%,#0d1820 0%,transparent 65%),
+    radial-gradient(ellipse 65% 38% at 74% 14%,rgba(28,20,14,.9) 0%,transparent 55%),
+    radial-gradient(ellipse 48% 28% at 16% 24%,rgba(114,32,8,.1) 0%,transparent 55%),
+    linear-gradient(195deg,#0d1822 0%,#0b0906 40%,#060504 100%);
+}
+.t-formation{position:absolute;inset:0;z-index:1;overflow:hidden;}
+.t-dot{
+  position:absolute;background:rgba(175,165,145,.5);border-radius:50%;
+  animation:t-drift linear infinite;
+}
+@keyframes t-drift{0%{transform:translate(0,0);}100%{transform:translate(-20px,7px);}}
+.t-flak-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;}
+.t-arc{
+  position:absolute;z-index:3;top:46%;left:50%;
+  transform:translate(-50%,-50%);
+  width:min(62vw,520px);height:min(62vw,520px);border-radius:50%;
+  border:1px solid rgba(200,158,20,.07);
+  box-shadow:inset 0 0 100px rgba(192,152,14,.024),0 0 80px rgba(0,0,0,.6);
+}
+.t-arc::before{
+  content:'';position:absolute;inset:18px;border-radius:50%;
+  border:1px solid rgba(200,158,20,.04);
+}
+.t-reflection{
+  position:absolute;top:16%;left:50%;
+  transform:translateX(-50%) scaleX(-1);z-index:3;
+  font-family:'Special Elite',cursive;
+  font-size:clamp(.62rem,1.1vw,.88rem);letter-spacing:.22em;
+  color:rgba(195,184,162,.1);white-space:nowrap;
+  pointer-events:none;user-select:none;
+}
+.t-vignette{
+  position:absolute;inset:0;z-index:4;
+  background:radial-gradient(ellipse 60% 60% at 50% 44%,
+    transparent 0%,transparent 26%,rgba(6,5,4,.55) 66%,rgba(6,5,4,.95) 100%);
+}
+.t-hero-content{position:relative;z-index:10;max-width:840px;}
+.t-eyebrow{
+  font-family:'Special Elite',cursive;font-size:.58rem;letter-spacing:.48em;
+  text-transform:uppercase;color:var(--t-yellow);margin-bottom:22px;
+  opacity:1;
+}
+.t-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(6rem,16vw,14rem);line-height:.86;letter-spacing:.025em;
+  color:var(--fh-vellum);margin-bottom:28px;
+  text-shadow:4px 12px 60px rgba(0,0,0,.9);
+  opacity:1;
+}
+.t-title-sub{
+  display:block;font-size:.18em;letter-spacing:.38em;
+  color:var(--t-rust2);font-family:'Special Elite',cursive;
+  margin-bottom:10px;text-shadow:none;
+}
+.t-tagline{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;
+  font-size:clamp(1rem,1.7vw,1.3rem);color:var(--t-aged);
+  max-width:500px;line-height:1.82;margin-bottom:50px;
+  opacity:1;
+}
+.t-actions{display:flex;gap:16px;flex-wrap:wrap;opacity:1;}
+.btn-t-pri{
+  font-family:'Cormorant Garamond',serif;font-weight:500;
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--t-void);background:var(--t-yellow2);
+  padding:14px 32px;text-decoration:none;border:none;cursor:pointer;
+  display:inline-block;transition:background .25s,transform .2s;
+}
+.btn-t-pri:hover{background:#e8c030;transform:translateY(-2px);}
+.btn-t-ghost{
+  font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--t-chrome2);background:transparent;
+  padding:14px 32px;text-decoration:none;
+  border:1px solid rgba(160,174,184,.3);cursor:pointer;display:inline-block;
+  transition:border-color .25s,color .25s;
+}
+.btn-t-ghost:hover{border-color:var(--t-chrome2);color:var(--t-cream);}
+.t-scroll{
+  position:absolute;bottom:42px;right:6vw;z-index:10;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  opacity:1;
+}
+.t-scroll span{
+  font-family:'Special Elite',cursive;font-size:.5rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--t-aged);writing-mode:vertical-rl;
+}
+.t-scroll-bar{
+  width:1px;height:52px;
+  background:linear-gradient(to bottom,var(--t-yellow),transparent);
+  animation:sPulse 2.4s ease-in-out infinite;
+}
+@keyframes sPulse{0%,100%{opacity:.3;}50%{opacity:.9;}}
+
+/* Shared TURRET sections */
+.t-sec{
+  padding:128px 6vw;background:var(--t-deep);
+  border-top:1px solid rgba(200,158,20,.07);
+}
+.t-sec.alt{background:var(--t-smoke);}
+.t-lbl{
+  font-family:'Special Elite',cursive;font-size:.58rem;letter-spacing:.46em;
+  text-transform:uppercase;color:var(--t-yellow);margin-bottom:16px;
+  display:flex;align-items:center;gap:14px;
+}
+.t-lbl::before{content:'';display:block;width:24px;height:1px;background:var(--t-yellow);flex-shrink:0;}
+.t-h2{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3rem,5.8vw,5rem);letter-spacing:.04em;
+  color:var(--fh-vellum);line-height:.95;margin-bottom:54px;
+}
+
+/* Story */
+.t-story-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:88px;align-items:start;}
+.t-body p{
+  font-size:1.12rem;line-height:2;color:var(--t-aged);
+  margin-bottom:20px;font-weight:300;
+}
+.t-body p:first-child{font-size:1.26rem;color:var(--t-cream);font-weight:400;}
+.t-body strong{color:var(--t-cream);font-weight:500;}
+.t-quote{
+  margin:40px 0;padding:26px 30px;
+  border-left:2px solid var(--t-rust2);background:rgba(114,32,8,.07);
+}
+.t-quote p{
+  font-style:italic;font-size:1.22rem !important;
+  line-height:1.7 !important;color:var(--t-cream) !important;
+  margin-bottom:10px !important;
+}
+.t-quote cite{
+  font-family:'Special Elite',cursive;font-size:.56rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--t-aged);font-style:normal;
+}
+
+/* Image slot */
+.img-slot{
+  background:var(--t-char);border:1px solid rgba(160,174,184,.1);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;position:relative;overflow:hidden;
+}
+.img-slot::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 35%,rgba(192,152,14,.04) 100%);
+}
+.img-slot-ico{font-size:1.5rem;opacity:.2;}
+.img-slot-lbl{
+  font-family:'Special Elite',cursive;font-size:.56rem;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--t-chrome);opacity:.55;
+}
+.img-slot img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* Stats */
+.t-stats{display:flex;flex-direction:column;}
+.t-stat{padding:26px 0 26px 34px;border-left:1px solid rgba(200,158,20,.2);border-bottom:1px solid rgba(200,158,20,.07);}
+.t-stat:last-child{border-bottom:none;}
+.t-stat-n{
+  font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,5vw,4rem);
+  color:var(--t-yellow2);line-height:1;letter-spacing:.02em;
+}
+.t-stat-u{
+  font-family:'Special Elite',cursive;font-size:.56rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--t-rust2);margin-top:4px;
+}
+.t-stat-d{font-style:italic;font-size:.9rem;color:var(--t-tan);margin-top:7px;line-height:1.6;}
+
+/* Comparables */
+.comps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:16px;}
+.comp{
+  background:var(--t-char);padding:24px 20px;
+  border-bottom:2px solid transparent;transition:border-color .3s,background .3s;
+}
+.comp:hover{background:var(--t-plate);border-bottom-color:var(--t-yellow);}
+.comp-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.06em;color:var(--fh-vellum);margin-bottom:5px;}
+.comp-year{font-family:'Special Elite',cursive;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t-aged);margin-bottom:12px;}
+.comp-bud{font-size:.86rem;color:var(--t-chrome2);margin-bottom:3px;}
+.comp-bo{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;color:var(--t-yellow2);letter-spacing:.03em;}
+.comp-roi{font-family:'Special Elite',cursive;font-size:.55rem;letter-spacing:.12em;color:var(--t-rust2);margin-top:3px;}
+.comp-note{font-size:.78rem;font-style:italic;color:var(--t-tan);margin-top:9px;line-height:1.5;}
+
+/* Investment */
+.t-inv-top{
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;
+  align-items:end;padding-bottom:68px;
+  border-bottom:1px solid rgba(200,158,20,.1);margin-bottom:78px;
+}
+.t-kf{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:17px 0;border-bottom:1px solid rgba(200,158,20,.08);
+}
+.t-kf:first-child{border-top:1px solid rgba(200,158,20,.08);}
+.t-kf-l{font-family:'Cormorant Garamond',serif;font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t-aged);font-weight:400;}
+.t-kf-v{font-family:'Bebas Neue',sans-serif;font-size:1.65rem;letter-spacing:.04em;color:var(--t-yellow2);}
+.t-kf-v.dim{color:var(--t-chrome2);}
+.t-kf-v.neg{color:var(--t-rust2);}
+
+.t-inv-split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.t-inv-story h3{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;color:var(--fh-vellum);letter-spacing:.06em;margin-bottom:20px;}
+.t-inv-story p{font-size:1.02rem;line-height:1.95;color:var(--t-aged);margin-bottom:17px;font-weight:300;}
+.t-inv-story p strong{color:var(--t-cream);font-weight:500;}
+
+/* Waterfall */
+.wf{margin-top:42px;}
+.wf-lbl{font-family:'Special Elite',cursive;font-size:.55rem;letter-spacing:.38em;text-transform:uppercase;color:var(--t-yellow);margin-bottom:20px;}
+.wf-step{display:flex;gap:17px;align-items:flex-start;padding:15px 0;border-bottom:1px solid rgba(200,158,20,.07);position:relative;}
+.wf-step::after{content:'';position:absolute;left:16px;top:34px;bottom:-15px;width:1px;background:linear-gradient(to bottom,rgba(200,158,20,.2),transparent);}
+.wf-step:last-child::after{display:none;}
+.wf-n{
+  width:32px;height:32px;border:1px solid rgba(200,158,20,.22);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-family:'Special Elite',cursive;font-size:.54rem;color:var(--t-yellow);
+  background:rgba(200,158,20,.06);
+}
+.wf-t{font-family:'Special Elite',cursive;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--t-cream);margin-bottom:3px;}
+.wf-t.g{color:var(--t-yellow2);}
+.wf-d{font-size:.86rem;font-style:italic;color:var(--t-tan);line-height:1.58;}
+
+/* Tiers */
+.t-tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:3px;}
+.t-tier{background:var(--t-char);padding:24px 18px;border-top:2px solid;}
+.t-tier:nth-child(1){border-top-color:var(--t-yellow2);}
+.t-tier:nth-child(2){border-top-color:var(--t-aged);}
+.t-tier:nth-child(3){border-top-color:var(--t-chrome);}
+.t-tier-ttl{font-family:'Special Elite',cursive;font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;color:var(--t-aged);margin-bottom:9px;line-height:1.5;}
+.t-tier-amt{font-family:'Bebas Neue',sans-serif;font-size:1.45rem;color:var(--fh-vellum);letter-spacing:.04em;margin-bottom:9px;}
+.t-tier-p{font-size:.8rem;font-style:italic;color:var(--t-tan);line-height:1.55;}
+
+/* Data blocks */
+.t-db{background:var(--t-char);border-top:2px solid var(--t-rust);padding:26px 30px;margin-bottom:3px;}
+.t-db.gt{border-top-color:var(--t-yellow2);}
+.t-db-lbl{font-family:'Special Elite',cursive;font-size:.54rem;letter-spacing:.34em;text-transform:uppercase;color:var(--t-aged);margin-bottom:14px;}
+.t-dr{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);gap:12px;}
+.t-dr:last-child{border-bottom:none;}
+.t-dk{font-size:.9rem;color:var(--t-aged);}
+.t-dv{font-family:'Special Elite',cursive;font-size:.8rem;letter-spacing:.04em;color:var(--t-cream);white-space:nowrap;flex-shrink:0;}
+.t-dv.g{color:var(--t-yellow2);}
+.t-dv.r{color:var(--t-rust2);}
+
+/* Team */
+.t-feat{
+  display:grid;grid-template-columns:1fr 2fr;gap:64px;
+  background:var(--t-char);padding:48px 42px;
+  border-top:2px solid var(--t-yellow2);margin-bottom:3px;
+}
+.t-role{font-family:'Special Elite',cursive;font-size:.54rem;letter-spacing:.34em;text-transform:uppercase;color:var(--t-rust2);margin-bottom:9px;}
+.t-name{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;color:var(--fh-vellum);letter-spacing:.04em;line-height:1;margin-bottom:18px;}
+.t-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.t-tag{font-family:'Special Elite',cursive;font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;color:var(--t-aged);border:1px solid rgba(200,158,20,.2);padding:3px 8px;}
+.t-bio{font-size:.98rem;line-height:1.88;color:var(--t-aged);font-weight:300;}
+.t-bio strong{color:var(--t-cream);font-weight:500;}
+.t-bio p+p{margin-top:14px;}
+
+.t-team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;}
+.t-card{
+  background:var(--t-char);padding:34px 28px;
+  border-top:2px solid transparent;transition:border-color .3s,background .3s;
+}
+.t-card:hover{border-top-color:var(--t-rust2);background:var(--t-plate);}
+.t-card .t-name{font-size:1.45rem;}
+.t-card .t-bio{font-size:.88rem;}
+.t-photo{
+  width:100%;aspect-ratio:4/3;background:var(--t-plate);
+  border:1px solid rgba(160,174,184,.08);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+  margin-bottom:20px;
+}
+.t-photo span{font-family:'Special Elite',cursive;font-size:.5rem;letter-spacing:.24em;text-transform:uppercase;color:var(--t-chrome);opacity:.5;}
+.t-team-grid .t-photo{display:none;}
+
+/* ═══════════════════════════════════════════
+   CONTACT — light world returns
+═══════════════════════════════════════════ */
+#contact{
+  background:var(--fh-linen);padding:128px 6vw;
+  border-top:5px solid var(--t-void);
+}
+.ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:start;max-width:1200px;margin:0 auto;}
+.ct-lead{font-size:1.12rem;line-height:1.95;color:var(--fh-slate);font-weight:300;margin-bottom:16px;}
+.ct-note{font-size:.88rem;font-style:italic;color:var(--fh-warm);margin-bottom:46px;line-height:1.7;}
+.ct-people{display:flex;flex-direction:column;}
+.ct-person{padding:20px 0;border-bottom:1px solid var(--fh-rule);}
+.ct-person:first-child{border-top:1px solid var(--fh-rule);}
+.cp-n{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:1.08rem;letter-spacing:.06em;text-transform:uppercase;color:var(--fh-navy);margin-bottom:3px;}
+.cp-r{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--fh-jfk);font-family:'Cormorant Garamond',serif;font-weight:400;margin-bottom:9px;}
+.cp-links{display:flex;flex-direction:column;gap:3px;}
+.cp-links a{font-size:.9rem;color:var(--fh-slate);text-decoration:none;transition:color .2s;}
+.cp-links a:hover{color:var(--fh-navy);}
+
+.form-head{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:.62rem;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--fh-jfk);margin-bottom:30px;
+  display:flex;align-items:center;gap:14px;
+}
+.form-head::before{content:'';display:block;width:26px;height:1px;background:var(--fh-jfk);flex-shrink:0;}
+.fg{margin-bottom:17px;}
+.fl{
+  display:block;font-family:'Cormorant Garamond',serif;font-weight:400;
+  font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--fh-warm);margin-bottom:6px;
+}
+.fi,.fs,.ft{
+  width:100%;background:var(--fh-vellum);border:1px solid var(--fh-rule2);
+  color:var(--fh-ink);font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:1rem;padding:11px 14px;outline:none;
+  appearance:none;transition:border-color .25s,background .25s;
+}
+.fi::placeholder,.ft::placeholder{color:var(--fh-warm);font-style:italic;}
+.fi:focus,.fs:focus,.ft:focus{border-color:var(--fh-jfk);background:var(--fh-linen);}
+.ft{resize:vertical;min-height:128px;line-height:1.7;}
+.fs{cursor:pointer;color:var(--fh-ink);}
+.fs option{background:var(--fh-vellum);}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fck-wrap{display:flex;align-items:flex-start;gap:11px;margin-bottom:18px;}
+.fck{
+  width:15px;height:15px;border:1px solid var(--fh-rule2);background:var(--fh-vellum);
+  flex-shrink:0;margin-top:3px;appearance:none;cursor:pointer;transition:background .2s,border-color .2s;
+}
+.fck:checked{background:var(--fh-navy);border-color:var(--fh-navy);}
+.fck-lbl{font-size:.86rem;color:var(--fh-slate);line-height:1.65;font-style:italic;}
+.f-disc{font-size:.76rem;font-style:italic;color:var(--fh-warm);line-height:1.65;margin-bottom:22px;}
+.btn-sub{
+  font-family:'Cormorant Garamond',serif;font-weight:500;
+  font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--fh-linen);background:var(--fh-navy);padding:15px 40px;
+  border:none;cursor:pointer;width:100%;transition:background .25s,transform .2s;
+}
+.btn-sub:hover{background:var(--fh-jfk);transform:translateY(-1px);}
+.f-ok{
+  display:none;padding:34px;background:rgba(28,40,64,.05);
+  border:1px solid var(--fh-rule2);text-align:center;
+}
+.f-ok p{font-style:italic;font-size:1.08rem;color:var(--fh-slate);line-height:1.8;}
+.f-ok strong{font-style:normal;color:var(--fh-navy);font-weight:600;}
+
+/* Footer */
+footer{
+  background:var(--fh-navy);padding:34px 6vw;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:14px;
+}
+.ft-logo{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:.68rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(240,235,224,.65);text-decoration:none;}
+.ft-copy{font-size:.76rem;font-style:italic;color:rgba(240,235,224,.38);}
+.ft-leg{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(240,235,224,.3);}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:960px){
+  .fh-grid,.t-story-grid,.t-inv-top,.t-inv-split,.t-feat,.ct-grid{grid-template-columns:1fr;gap:48px;}
+  .t-team-grid,.comps-grid{grid-template-columns:1fr 1fr;}
+  .t-tiers{grid-template-columns:1fr;}
+  .fh-creds{grid-template-columns:1fr 1fr 1fr;}
+  .nav-links{display:none;}
+}
+@media(max-width:600px){
+  .t-team-grid,.comps-grid{grid-template-columns:1fr;}
+  .f2{grid-template-columns:1fr;}
+  footer{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav" class="is-light">
+  <a href="#fh-hero" class="nav-logo">Flak Happy Films</a>
+  <ul class="nav-links">
+    <li><a href="#fh-about">The Company</a></li>
+    <li><a href="#t-hero">Turret</a></li>
+    <li><a href="#t-invest">Investment</a></li>
+    <li><a href="#t-team">The Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Request the Deck</a>
+</nav>
+
+
+<!-- ══════════════════════════════════════════
+     FLAK HAPPY FILMS
+══════════════════════════════════════════ -->
+
+<section id="fh-hero">
+  <div style="max-width:900px;margin:0 auto;text-align:center;position:relative;">
+    <div class="fh-orn">
+      <div class="fh-orn-line"></div>
+      <div class="fh-orn-text">Independent Film Production · New York</div>
+      <div class="fh-orn-line"></div>
+    </div>
+    <h1 class="fh-name">
+      <span>A Production Company</span>
+      Flak Happy<br>Films
+    </h1>
+    <p class="fh-tagline">Stories worth telling, told with the discipline to get them made.</p>
+    <div class="fh-rule-drop"></div>
+  </div>
+</section>
+
+<section id="fh-about" style="background:var(--fh-linen);">
+  <div class="fh-grid">
+    <div class="rv">
+      <div class="fh-label">The Company</div>
+      <h2 class="fh-title">Films that<br>earn their<br><em>weight.</em></h2>
+    </div>
+    <div class="fh-body">
+      <p class="rv d1"><strong>Flak Happy Films</strong> is an independent production company built on the conviction that the most durable films are the ones that start with a story worth telling — and the financial and creative discipline to tell it.</p>
+      <p class="rv d2">We work at the intersection of personal storytelling and structural rigor. Our projects are developed with institutional-grade financial modeling, experienced crews, and a clear-eyed view of the path from page to screen to audience.</p>
+      <p class="rv d3">The company is led by producers with decades of on-set experience across independent film, documentary, and television. We believe the best independent films aren't smaller than studio films — they're more focused.</p>
+      <div class="fh-divider rv d3"></div>
+      <p class="rv d3" style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:.62rem;letter-spacing:.5em;text-transform:uppercase;color:var(--fh-jfk);margin-bottom:28px;">The People Behind It</p>
+      <div class="fh-creds">
+        <div class="rv d2"><div class="fh-cred-n">30<span style="font-size:.6em">+</span></div><div class="fh-cred-l">Years Combined Experience</div></div>
+        <div class="rv d3"><div class="fh-cred-n">100<span style="font-size:.6em">+</span></div><div class="fh-cred-l">Combined Film & TV Credits</div></div>
+        <div class="rv d4"><div class="fh-cred-n">1</div><div class="fh-cred-l">Feature Film in Development</div></div>
+      </div>
+      <p class="rv d5" style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:.68rem;letter-spacing:.45em;text-transform:uppercase;color:var(--fh-warm);margin-top:28px;text-align:center;">New York &nbsp;·&nbsp; Los Angeles</p>
+    </div>
+  </div>
+</section>
+
+<section id="fh-bridge" style="background:var(--fh-vellum);padding:96px 6vw;border-top:1px solid var(--fh-rule);text-align:center;">
+  <div style="max-width:720px;margin:0 auto;">
+    <div class="fh-label rv">Current Production</div>
+    <p class="rv d1" style="font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(1.15rem,2.2vw,1.58rem);color:var(--fh-slate);line-height:1.72;margin-bottom:44px;">
+      Flak Happy Films' first feature is <strong style="font-style:normal;font-weight:600;color:var(--fh-navy);">TURRET</strong> — a contained WWII survival thriller produced in Spain with an incentive-anchored budget and international sales representation through <strong style="font-style:normal;font-weight:600;color:var(--fh-navy);">Moonrise Pictures</strong>.
+    </p>
+    <a href="#t-hero" class="fh-enter rv d2">Enter the Film ↓</a>
+  </div>
+</section>
+
+<!-- THE CUT -->
+<div class="the-cut"></div>
+
+
+<!-- ══════════════════════════════════════════
+     T U R R E T
+══════════════════════════════════════════ -->
+
+<section id="t-hero">
+  <div class="t-sky"></div>
+  <div class="t-formation" id="t-form"></div>
+  <div class="t-flak-layer" id="t-flak"></div>
+  <div class="t-arc"></div>
+  <div class="t-reflection">FLAK HAPPY · LUCKY STRIKE · DAMDIFINO · BERLIN PLAYBOY</div>
+  <div class="t-vignette"></div>
+
+  <div class="t-hero-content">
+    <p class="t-eyebrow">Flak Happy Films &nbsp;·&nbsp; A Feature Film in Development</p>
+    <h1 class="t-title">
+      <span class="t-title-sub">1945 &nbsp;·&nbsp; English Channel</span>
+      Turret
+    </h1>
+    <p class="t-tagline">A young American airman. A jammed hatch. Thirty-five thousand feet. His thirty-fifth and final mission.</p>
+    <div class="t-actions">
+      <a href="#contact" class="btn-t-pri">Request the Deck</a>
+      <a href="#t-story" class="btn-t-ghost">The Film</a>
+    </div>
+  </div>
+
+  <div class="t-scroll">
+    <div class="t-scroll-bar"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+
+<!-- Story -->
+<section id="t-story" class="t-sec">
+  <div class="t-story-grid">
+    <div>
+      <div class="t-lbl rv">The Film</div>
+      <h2 class="t-h2 rv d1">One Man.<br>No Way Out.</h2>
+      <div class="t-body">
+        <p class="rv d2">Staff Sergeant Paul Campbell has survived thirty-four missions over occupied Europe. He is twenty-five years old. Tomorrow he goes home to his wife, to the daughter they are about to adopt.</p>
+        <p class="rv d3">On his thirty-fifth and final mission, the Lucky Strike is ambushed by Luftwaffe fighters. Engines ablaze and losing altitude, the crew bails out. The ball turret hatch is jammed. Paul's interphone is dead. His crewmates, believing him lost, jump without him.</p>
+        <p class="rv d4">What remains is one man, in a four-foot steel sphere, dangling from the belly of a dying aircraft over the English Channel. <strong>This is where the fuck we are.</strong></p>
+      </div>
+      <div class="t-quote rv d4">
+        <p>"Just this last one."</p>
+        <cite>— Paul Campbell, S/Sgt., Ball Turret Gunner</cite>
+      </div>
+      <div class="img-slot rv d5" style="margin-top:32px;aspect-ratio:16/9;">
+        <div class="img-slot-ico">✦</div>
+        <div class="img-slot-lbl">Production Illustration — The Set</div>
+      </div>
+    </div>
+    <div>
+      <div class="t-stats">
+        <div class="t-stat rv">
+          <div class="t-stat-n">40,000<span style="font-size:.52em">+</span></div>
+          <div class="t-stat-u">American Airmen Killed</div>
+          <div class="t-stat-d">In WWII bombing campaigns over Europe. Among the least depicted, most vulnerable soldiers of the war.</div>
+        </div>
+        <div class="t-stat rv d1">
+          <div class="t-stat-n">4<span style="font-size:.42em;color:var(--t-aged)"> ft</span></div>
+          <div class="t-stat-u">Diameter — The Ball Turret</div>
+          <div class="t-stat-d">Plexiglas and aluminum. Twin .50-caliber machine guns. One man, near-fetal. No means of escape if the hatch jammed.</div>
+        </div>
+        <div class="t-stat rv d2">
+          <div class="t-stat-n">35</div>
+          <div class="t-stat-u">The Final Mission</div>
+          <div class="t-stat-d">Thirty-four completed. One remaining. The number that should have meant freedom — and instead means everything.</div>
+        </div>
+      </div>
+      <div class="img-slot rv d3" style="margin-top:3px;aspect-ratio:3/4;">
+        <div class="img-slot-ico">✦</div>
+        <div class="img-slot-lbl">Storyboard / Concept Art</div>
+      </div>
+      <div class="rv d4" style="margin-top:3px;padding:26px 30px;background:var(--t-char);">
+        <p style="font-family:'Special Elite',cursive;font-size:.54rem;letter-spacing:.36em;text-transform:uppercase;color:var(--t-yellow);margin-bottom:12px;">The Approach</p>
+        <p style="font-size:.93rem;line-height:1.85;color:var(--t-aged);">Shot from inside the turret. Spain's world-class LED volume stages — the same infrastructure used in productions from <em>The Mandalorian</em> to <em>Game of Thrones</em> — let TURRET put the visual scope of a $25M film on screen for a fraction of the cost.</p>
+        <p style="font-size:.93rem;line-height:1.85;color:var(--t-aged);margin-top:12px;">Directed by <strong style="color:var(--t-cream);font-weight:500;">Rosemary Rodriguez</strong>. Sales representation: <strong style="color:var(--t-cream);font-weight:500;">Moonrise Pictures</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Comparables -->
+<section class="t-sec alt">
+  <div class="t-lbl rv">The Market</div>
+  <h2 class="t-h2 rv d1">Contained.<br>Profitable.</h2>
+  <div class="comps-grid">
+    <div class="comp rv">
+      <div class="comp-title">Buried</div><div class="comp-year">2010 · Spain</div>
+      <div class="comp-bud">Budget: $2M</div><div class="comp-bo">$19.4M</div>
+      <div class="comp-roi">9.7× return</div>
+      <div class="comp-note">One actor. One coffin. The template for TURRET's model.</div>
+    </div>
+    <div class="comp rv d1">
+      <div class="comp-title">Fall</div><div class="comp-year">2022</div>
+      <div class="comp-bud">Budget: $3M</div><div class="comp-bo">$21.8M</div>
+      <div class="comp-roi">7.3× return</div>
+      <div class="comp-note">High-concept single location. Closest structural comparable.</div>
+    </div>
+    <div class="comp rv d2">
+      <div class="comp-title">Locke</div><div class="comp-year">2013 · Tom Hardy</div>
+      <div class="comp-bud">Budget: $2M</div><div class="comp-bo">$5M</div>
+      <div class="comp-roi">Strong ancillary & streaming</div>
+      <div class="comp-note">Critical darling. Proves single-location character studies find their audience.</div>
+    </div>
+    <div class="comp rv d3">
+      <div class="comp-title">127 Hours</div><div class="comp-year">2010 · Danny Boyle</div>
+      <div class="comp-bud">Budget: $18M</div><div class="comp-bo">$60.7M</div>
+      <div class="comp-roi">6 Academy Award nominations</div>
+      <div class="comp-note">Prestige ceiling for the survival genre. TURRET's aspirational benchmark.</div>
+    </div>
+    <div class="comp rv">
+      <div class="comp-title">Fury</div><div class="comp-year">2014 · WWII</div>
+      <div class="comp-bud">Budget: $68M</div><div class="comp-bo">$211.8M</div>
+      <div class="comp-roi">Tone reference</div>
+      <div class="comp-note">Proves global audience appetite for contained WWII action.</div>
+    </div>
+    <div class="comp rv d1">
+      <div class="comp-title">Arctic</div><div class="comp-year">2018 · Mads Mikkelsen</div>
+      <div class="comp-bud">Budget: $2M</div><div class="comp-bo">$4.2M</div>
+      <div class="comp-roi">Strong streaming performance</div>
+      <div class="comp-note">Low-dialogue survival. Proves international market for the form.</div>
+    </div>
+    <div class="comp rv d2">
+      <div class="comp-title">1917</div><div class="comp-year">2019 · Sam Mendes</div>
+      <div class="comp-bud">Budget: $95M</div><div class="comp-bo">$390M</div>
+      <div class="comp-roi">3 Academy Awards</div>
+      <div class="comp-note">The ceiling of war/survival cinema. A proof of concept for the form.</div>
+    </div>
+    <div class="comp rv d3" style="border-bottom:2px solid var(--t-yellow);background:rgba(200,158,20,.05);">
+      <div class="comp-title" style="color:var(--t-yellow2);">Turret</div>
+      <div class="comp-year">2026 Production · Spain</div>
+      <div class="comp-bud">$7.7M gross · $4.7M equity</div>
+      <div class="comp-bo" style="color:var(--t-yellow2);">TBD</div>
+      <div class="comp-roi">Cannes 2027 Target</div>
+      <div class="comp-note">Virtual production + survival thriller + WWII. The combination has never been made at this level for this budget.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Investment -->
+<section id="t-invest" class="t-sec">
+  <div class="t-inv-top">
+    <div class="rv">
+      <div class="t-lbl">The Opportunity</div>
+      <h2 class="t-h2" style="margin-bottom:20px;">A Film Built<br>to Return.</h2>
+      <p style="font-size:1.02rem;line-height:1.92;color:var(--t-aged);font-weight:300;max-width:460px;">Spain's refundable tax credit reduces investor exposure by $3M before a single frame is shot. The equity raise funds the net budget. The story does the rest.</p>
+    </div>
+    <div class="rv d2">
+      <div class="t-kf"><span class="t-kf-l">Equity Raise</span><span class="t-kf-v">$4.7M</span></div>
+      <div class="t-kf"><span class="t-kf-l">Gross Budget</span><span class="t-kf-v dim">$7,714,119</span></div>
+      <div class="t-kf"><span class="t-kf-l">Spain Tax Credit</span><span class="t-kf-v neg">($3,050,536)</span></div>
+      <div class="t-kf"><span class="t-kf-l">Net Exposure</span><span class="t-kf-v">$4,663,583</span></div>
+      <div class="t-kf"><span class="t-kf-l">Preferred Return</span><span class="t-kf-v">120%</span></div>
+      <div class="t-kf"><span class="t-kf-l">Minimum Investment</span><span class="t-kf-v">$500,000</span></div>
+    </div>
+  </div>
+
+  <div class="t-inv-split">
+    <div class="rv t-inv-story">
+      <h3>Why This Film, Why Now</h3>
+      <p>Contained survival thrillers are among the most consistently profitable films in independent cinema. <strong>Buried</strong> returned nearly 10× on $2M. <strong>Fall</strong> returned 7× on $3M. The genre rewards focus — and TURRET is nothing if not focused.</p>
+      <p>Spain's virtual production infrastructure — LED volume stages used in productions from <em>Game of Thrones</em> to <em>The Mandalorian</em> — allows TURRET to put the visual scope of a $25M film on screen at a fraction of the cost.</p>
+      <p>Spain's refundable incentive is <strong>monetized through senior financing repaid directly from the government rebate</strong>. It does not flow through investor returns. Equity investors receive their full 120% preferred return from distribution revenue, unaffected by the tax credit structure.</p>
+      <div class="wf">
+        <div class="wf-lbl">Recoupment Waterfall</div>
+        <div class="wf-step"><div class="wf-n">01</div><div><div class="wf-t">Gross Proceeds</div><div class="wf-d">100% of all revenue from exploitation of the film</div></div></div>
+        <div class="wf-step"><div class="wf-n">02</div><div><div class="wf-t">Off-the-Top (CAMA)</div><div class="wf-d">Collection fees, guild reserves, distribution legal & marketing</div></div></div>
+        <div class="wf-step"><div class="wf-n">03</div><div><div class="wf-t">Tax Credit Senior Repayment</div><div class="wf-d">Repaid from Spain rebate — not from distribution revenue</div></div></div>
+        <div class="wf-step"><div class="wf-n">04</div><div><div class="wf-t g">Equity Investor Recoupment</div><div class="wf-d">100% capital + 20% preferred return — pari passu among all equity holders</div></div></div>
+        <div class="wf-step"><div class="wf-n">05</div><div><div class="wf-t">Net Profits</div><div class="wf-d">50% to equity investors pro rata &nbsp;·&nbsp; 50% to company</div></div></div>
+      </div>
+    </div>
+
+    <div class="rv d2">
+      <div class="t-db gt">
+        <div class="t-db-lbl">Offering Terms</div>
+        <div class="t-dr"><span class="t-dk">Security Type</span><span class="t-dv">Equity — Non-managing</span></div>
+        <div class="t-dr"><span class="t-dk">Minimum Investment</span><span class="t-dv g">$500,000</span></div>
+        <div class="t-dr"><span class="t-dk">Preferred Return</span><span class="t-dv g">120% (100% + 20%)</span></div>
+        <div class="t-dr"><span class="t-dk">Return Structure</span><span class="t-dv">Pari passu</span></div>
+        <div class="t-dr"><span class="t-dk">Net Profit Share</span><span class="t-dv">50% to investors</span></div>
+        <div class="t-dr"><span class="t-dk">Tax Treatment</span><span class="t-dv">Partnership — K-1</span></div>
+        <div class="t-dr"><span class="t-dk">Funds Held</span><span class="t-dv">Escrow — milestone release</span></div>
+      </div>
+      <div class="t-db">
+        <div class="t-db-lbl">Budget</div>
+        <div class="t-dr"><span class="t-dk">Above-the-Line</span><span class="t-dv">$1,519,224</span></div>
+        <div class="t-dr"><span class="t-dk">Below-the-Line Production</span><span class="t-dv">$3,724,555</span></div>
+        <div class="t-dr"><span class="t-dk">Post (incl. $1.9M VFX)</span><span class="t-dv">$2,387,051</span></div>
+        <div class="t-dr"><span class="t-dk">Insurance & Legal</span><span class="t-dv">$83,288</span></div>
+        <div class="t-dr" style="border-top:1px solid rgba(200,158,20,.15);margin-top:3px;padding-top:11px;"><span class="t-dk" style="color:var(--t-cream);">Gross Total</span><span class="t-dv g">$7,714,119</span></div>
+        <div class="t-dr"><span class="t-dk" style="color:var(--t-rust2);">Spain Tax Credit</span><span class="t-dv r">($3,050,536)</span></div>
+        <div class="t-dr" style="border-top:1px solid rgba(200,158,20,.15);margin-top:3px;padding-top:11px;"><span class="t-dk" style="color:var(--t-cream);">Net Investor Exposure</span><span class="t-dv g">$4,663,583</span></div>
+      </div>
+      <div class="t-db">
+        <div class="t-db-lbl">Timeline</div>
+        <div class="t-dr"><span class="t-dk">Fundraising & Talent</span><span class="t-dv">Q1–Q2 2026</span></div>
+        <div class="t-dr"><span class="t-dk">Pre-Production</span><span class="t-dv">Q3 2026</span></div>
+        <div class="t-dr"><span class="t-dk">Principal Photography</span><span class="t-dv">Q4 2026 · Spain</span></div>
+        <div class="t-dr"><span class="t-dk">Post-Production</span><span class="t-dv">Q1–Q2 2027</span></div>
+        <div class="t-dr"><span class="t-dk">Target Premiere</span><span class="t-dv g">Cannes 2027</span></div>
+        <div class="t-dr"><span class="t-dk">Sales Agent</span><span class="t-dv">Moonrise Pictures</span></div>
+      </div>
+      <div class="t-tiers">
+        <div class="t-tier"><div class="t-tier-ttl">Lead Executive Producer</div><div class="t-tier-amt">$2M+</div><div class="t-tier-p">Lead EP credit · dedicated set access · exclusive premiere invitations · direct access to director & key team</div></div>
+        <div class="t-tier"><div class="t-tier-ttl">Executive Producer</div><div class="t-tier-amt">$1M–$2M</div><div class="t-tier-p">EP credit · set visit · festival premiere & private screening</div></div>
+        <div class="t-tier"><div class="t-tier-ttl">Co-Executive Producer</div><div class="t-tier-amt">$500K+</div><div class="t-tier-p">Co-EP credit · premiere invitation · production updates</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Team -->
+<section id="t-team" class="t-sec alt">
+  <div class="t-lbl rv">The Team</div>
+  <h2 class="t-h2 rv d1">Assembled<br>for This Mission.</h2>
+
+  <!-- Rosemary featured -->
+  <div class="t-feat rv d2">
+    <div>
+      <div class="t-role">Director</div>
+      <div class="t-name">Rosemary Rodriguez</div>
+      <div class="t-tags" style="margin-bottom:20px;">
+        <span class="t-tag">Sundance</span>
+        <span class="t-tag">Independent Spirit</span>
+        <span class="t-tag">DGA</span>
+        <span class="t-tag">100% RT SXSW</span>
+      </div>
+      <div style="display:flex;gap:28px;align-items:flex-start;margin-top:8px;">
+        <div class="img-slot" style="aspect-ratio:2/3;width:180px;flex-shrink:0;">
+          <div class="img-slot-ico">✦</div>
+          <div class="img-slot-lbl">Photo</div>
+        </div>
+        <div style="flex:1;padding-left:12px;">
+          <p style="font-family:'Special Elite',cursive;font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;color:var(--t-yellow);margin-bottom:10px;">Selected Credits</p>
+          <ul style="list-style:none;padding:0;margin:0;">
+            <li style="padding:6px 0;border-bottom:1px solid rgba(200,158,20,.08);"><span style="font-size:.82rem;color:var(--t-cream);font-weight:500;">Hail Mary</span><span style="font-size:.72rem;color:var(--t-aged);display:block;">Feature · SXSW · 100% RT</span></li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(200,158,20,.08);"><span style="font-size:.82rem;color:var(--t-cream);font-weight:500;">Your Honor</span><span style="font-size:.72rem;color:var(--t-aged);display:block;">Showtime · Bryan Cranston</span></li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(200,158,20,.08);"><span style="font-size:.82rem;color:var(--t-cream);font-weight:500;">Peacemaker</span><span style="font-size:.72rem;color:var(--t-aged);display:block;">HBO · John Cena</span></li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(200,158,20,.08);"><span style="font-size:.82rem;color:var(--t-cream);font-weight:500;">Home Before Dark</span><span style="font-size:.72rem;color:var(--t-aged);display:block;">Apple TV+ · EP/Director</span></li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(200,158,20,.08);"><span style="font-size:.82rem;color:var(--t-cream);font-weight:500;">Jessica Jones</span><span style="font-size:.72rem;color:var(--t-aged);display:block;">Netflix</span></li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(200,158,20,.08);"><span style="font-size:.82rem;color:var(--t-cream);font-weight:500;">The Walking Dead</span><span style="font-size:.72rem;color:var(--t-aged);display:block;">AMC</span></li>
+            <li style="padding:6px 0;border-bottom:1px solid rgba(200,158,20,.08);"><span style="font-size:.82rem;color:var(--t-cream);font-weight:500;">Elsbeth</span><span style="font-size:.72rem;color:var(--t-aged);display:block;">CBS · 2024</span></li>
+            <li style="padding:6px 0;"><span style="font-size:.82rem;color:var(--t-cream);font-weight:500;">Acts of Worship</span><span style="font-size:.72rem;color:var(--t-aged);display:block;">Sundance · Spirit Award nom.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="t-bio">
+        <p>Rosemary Rodriguez is an award-winning director and producer known for navigating both prestige television and independent film with consistent critical recognition. Her debut feature <strong>Acts of Worship</strong> premiered at Sundance and earned two Independent Spirit Award nominations. <strong>Silver Skies</strong>, executive produced by Fred Roos (<em>The Godfather</em>), won multiple festival awards. Her most recent feature, <strong>Hail Mary</strong> starring Jack Huston, premiered at SXSW with a 100% Rotten Tomatoes rating.</p>
+        <p>Her television credits include <em>Your Honor, The Walking Dead, Peacemaker, Jessica Jones,</em> and <em>The Good Wife.</em> She served as Executive Producer/Director on Apple's <em>Home Before Dark.</em></p>
+        <p>She brings the formal precision of prestige episodic television and the emotional authority of her independent features to every project — the exact combination TURRET demands from its confined perspective and demanding 20-day shooting schedule.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="t-team-grid">
+    <div class="t-card rv">
+      <div class="t-photo"><span>Photo</span></div>
+      <div class="t-role">Lead Producer</div>
+      <div class="t-name">Lauren Bratman</div>
+      <div class="t-bio"><strong>The Stanford Prison Experiment</strong> (Sundance · Alfred P. Sloan Award), <strong>Mainstream</strong> (dir. Gia Coppola), <strong>The Accompanist, C.O.G., Crash Pad, Return to Sender.</strong> A proven champion of director-driven, character-focused storytelling.</div>
+      <div class="t-tags" style="margin-top:14px;"><span class="t-tag">Sundance</span><span class="t-tag">Sloan Award</span></div>
+    </div>
+    <div class="t-card rv d1">
+      <div class="t-photo"><span>Photo</span></div>
+      <div class="t-role">Producer</div>
+      <div class="t-name">Ted Lehane</div>
+      <div class="t-bio">30+ years across independent film, documentary, and network television. Co-founder, Flak Happy Films. Credits include <strong>Spanking the Monkey, High Art, Madam Secretary,</strong> and <strong>Manifest.</strong> This film is personal — and it shows in every decision.</div>
+      <div class="t-tags" style="margin-top:14px;"><span class="t-tag">Flak Happy Films</span><span class="t-tag">30+ Years</span></div>
+    </div>
+    <div class="t-card rv">
+      <div class="t-photo"><span>Photo</span></div>
+      <div class="t-role">Writer / Cinematographer</div>
+      <div class="t-name">Timothy Bellen</div>
+      <div class="t-bio">DP on Apple's <strong>Dear Edward,</strong> Amazon's <strong>As We See It,</strong> HBO's <strong>Veep,</strong> <em>Rise of the Planet of the Apes, Bottleshock, Montana Story.</em> Directed Fox's <em>Almost Family.</em> The writer who sees every frame before writing it.</div>
+      <div class="t-tags" style="margin-top:14px;"><span class="t-tag">Apple</span><span class="t-tag">Amazon</span><span class="t-tag">HBO</span></div>
+    </div>
+    <div class="t-card rv d1">
+      <div class="t-photo"><span>Photo</span></div>
+      <div class="t-role">Co-Writer / Producer</div>
+      <div class="t-name">Chris Haifley</div>
+      <div class="t-bio">Eight years in the U.S. Army. <strong>Ronnie</strong> — Slamdance finalist. Military-based TV series in development with Bryan Cranston and Moonshot Entertainment. The writer who has been inside the pressure this story demands.</div>
+      <div class="t-tags" style="margin-top:14px;"><span class="t-tag">U.S. Army Veteran</span><span class="t-tag">Slamdance</span></div>
+    </div>
+    <div class="t-card rv d2">
+      <div class="t-photo"><span>Photo</span></div>
+      <div class="t-role">Executive Producer</div>
+      <div class="t-name">Bob Lehane</div>
+      <div class="t-bio">Partner, <strong>Kelley Drye & Warren LLP</strong> (New York). Managing Member, Flak Happy Films. Director, META Advisors LLP. A lifelong WWII aviation historian whose passion for this story is in the DNA of the project.</div>
+      <div class="t-tags" style="margin-top:14px;"><span class="t-tag">Kelley Drye & Warren</span><span class="t-tag">META Advisors</span></div>
+    </div>
+    <div class="t-card rv d2" style="background:var(--t-olive);border-top-color:var(--t-olive2);display:flex;flex-direction:column;justify-content:flex-end;">
+      <p style="font-style:italic;font-size:1.08rem;line-height:1.8;color:var(--t-cream);margin-bottom:24px;">"A team assembled not for convenience, but for conviction."</p>
+      <a href="#contact" class="btn-t-pri" style="text-align:center;display:block;">Request the Full Packet</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     CONTACT — light returns
+══════════════════════════════════════════ -->
+<section id="contact">
+  <div class="ct-grid">
+    <div>
+      <div class="fh-label rv">The Beginning</div>
+      <h2 class="fh-title rv d1" style="margin-bottom:24px;">Request<br>the Deck.</h2>
+      <p class="ct-lead rv d2">TURRET is seeking accredited equity investors. The full investment packet — budget detail, waterfall structure, comparables analysis, and subscription documents — is available upon request.</p>
+      <p class="ct-note rv d3">This offering is available only to accredited investors as defined under applicable securities law. Minimum investment $500,000.</p>
+      <div class="ct-people rv d4">
+        <div class="ct-person">
+          <div class="cp-n">David Wallis</div>
+          <div class="cp-r">Financier</div>
+          <div class="cp-links">
+            <a href="/cdn-cgi/l/email-protection#a1c5c0d7c8c5cbc3d6c0cdcdc8d2e1c6ccc0c8cd8fc2cecc"><span class="__cf_email__" data-cfemail="6f0b0e19060b050d180e0303061c2f08020e0603410c0002">[email&#160;protected]</span></a>
+            <a href="tel:+13017585849">+1 (301) 758-5849</a>
+          </div>
+        </div>
+        <div class="ct-person">
+          <div class="cp-n">Ted Lehane</div>
+          <div class="cp-r">Producer — Flak Happy Films</div>
+          <div class="cp-links">
+            <a href="/cdn-cgi/l/email-protection#3e4a5b5a525b565f505b7e58525f55565f4e4e47585752534d105d5153"><span class="__cf_email__" data-cfemail="5a2e3f3e363f323b343f1a3c363b31323b2a2a233c3336372974393537">[email&#160;protected]</span></a>
+            <a href="tel:+19176737548">+1 (917) 673-7548</a>
+          </div>
+        </div>
+        <div class="ct-person">
+          <div class="cp-n">Bob Lehane</div>
+          <div class="cp-r">Executive Producer — Kelley Drye & Warren LLP</div>
+          <div class="cp-links">
+            <a href="/cdn-cgi/l/email-protection#4b19072e032a252e0b202e27272e322f39322e65282426"><span class="__cf_email__" data-cfemail="62302e072a030c072209070e0e071b06101b074c010d0f">[email&#160;protected]</span></a>
+            <a href="tel:+16462639536">+1 (646) 263-9536</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rv d2">
+      <div class="form-head">Investor Inquiry</div>
+      <form id="cForm">
+        <div class="f2">
+          <div class="fg"><label class="fl" for="fn">First Name</label><input class="fi" type="text" id="fn" placeholder="First" required></div>
+          <div class="fg"><label class="fl" for="ln">Last Name</label><input class="fi" type="text" id="ln" placeholder="Last" required></div>
+        </div>
+        <div class="fg"><label class="fl" for="em">Email Address</label><input class="fi" type="email" id="em" placeholder="your@email.com" required></div>
+        <div class="fg"><label class="fl" for="ph">Phone</label><input class="fi" type="tel" id="ph" placeholder="+1 (000) 000-0000"></div>
+        <div class="fg">
+          <label class="fl" for="rg">Investment Range</label>
+          <select class="fs" id="rg">
+            <option value="" disabled selected>Select a range</option>
+            <option>$500,000 – $999,999</option>
+            <option>$1,000,000 – $1,999,999</option>
+            <option>$2,000,000+</option>
+            <option>Prefer to discuss directly</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl" for="ms">Message</label><textarea class="ft" id="ms" placeholder="Tell us about your interest, or simply request the investment packet…"></textarea></div>
+        <div class="fck-wrap">
+          <input type="checkbox" class="fck" id="acc" required>
+          <label class="fck-lbl" for="acc">I confirm that I am, or represent, an accredited investor as defined by applicable securities law.</label>
+        </div>
+        <p class="f-disc">All information shared is confidential and for investment purposes only. Formal subscription documents are available upon request.</p>
+        <button type="submit" class="btn-sub">Send Inquiry — Request the Deck</button>
+      </form>
+      <div class="f-ok" id="fOk">
+        <p><strong>Thank you.</strong><br>We'll be in touch within one business day with the full investment packet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="#fh-hero" class="ft-logo">Flak Happy Films</a>
+  <span class="ft-copy">TURRET — A Feature Film in Development · 2026</span>
+  <span class="ft-leg">Confidential · Accredited Investors Only</span>
+</footer>
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── Nav world ── */
+const nav   = document.getElementById('nav');
+const tHero = document.getElementById('t-hero');
+function updateNav(){
+  const y = window.scrollY;
+  const cut = tHero.offsetTop - 90;
+  nav.classList.toggle('scrolled', y > 50);
+  if(y >= cut){ nav.classList.replace('is-light','is-dark'); }
+  else         { nav.classList.replace('is-dark','is-light'); }
+}
+window.addEventListener('scroll', updateNav, {passive:true});
+updateNav();
+
+/* ── Bomber formation ── */
+(function(){
+  const c = document.getElementById('t-form');
+  const W = window.innerWidth, H = window.innerHeight;
+  const gs = [
+    {cx:.52,cy:.10,n:14,sp:.26},{cx:.30,cy:.16,n:8,sp:.15},
+    {cx:.76,cy:.07,n:6,sp:.12},{cx:.17,cy:.21,n:5,sp:.10},{cx:.85,cy:.13,n:7,sp:.14}
+  ];
+  gs.forEach(g=>{
+    for(let i=0;i<g.n;i++){
+      const el=document.createElement('div');
+      el.className='t-dot';
+      const row=Math.floor(i/3),col=i%3;
+      const x=(g.cx+(col-1)*g.sp*.44+(Math.random()-.5)*g.sp*.17)*W;
+      const y=(g.cy+row*.026+(Math.random()-.5)*.016)*H;
+      const sz=1.3+Math.random()*2.4;
+      el.style.cssText=`left:${x}px;top:${y}px;width:${sz}px;height:${sz}px;
+        animation-duration:${15+Math.random()*17}s;
+        animation-delay:${-Math.random()*15}s;
+        opacity:${.25+Math.random()*.45};`;
+      c.appendChild(el);
+    }
+  });
+})();
+
+/* ── Flak bursts ── */
+(function(){
+  const layer=document.getElementById('t-flak');
+  const W=window.innerWidth,H=window.innerHeight;
+  [[.62,.22],[.38,.14],[.76,.30],[.24,.26],[.55,.09],[.44,.36],[.69,.18],
+   [.32,.31],[.80,.24],[.50,.40],[.20,.13],[.72,.37],[.58,.29],[.42,.20],[.90,.16]
+  ].forEach(([fx,fy])=>{
+    const el=document.createElement('div');
+    el.className='t-flak-layer';
+    const sz=20+Math.random()*40;
+    const op=.038+Math.random()*.085;
+    el.style.cssText=`
+      position:absolute;border-radius:50%;pointer-events:none;
+      left:${fx*W-sz/2}px;top:${fy*H-sz/2}px;
+      width:${sz}px;height:${sz}px;
+      background:rgba(${178+Math.floor(Math.random()*55)},${158+Math.floor(Math.random()*38)},${128+Math.floor(Math.random()*38)},${op});
+      border-radius:${42+Math.random()*48}% ${32+Math.random()*38}% ${40+Math.random()*42}% ${36+Math.random()*44}%;
+      filter:blur(${4+Math.random()*9}px);`;
+    layer.appendChild(el);
+  });
+})();
+
+/* ── Parallax ── */
+const tSky=document.querySelector('.t-sky');
+const tArc=document.querySelector('.t-arc');
+const tRef=document.querySelector('.t-reflection');
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  if(tSky) tSky.style.transform=`translateY(${y*.26}px)`;
+  if(tArc) tArc.style.transform=`translate(-50%,calc(-50% + ${y*.11}px))`;
+  if(tRef) tRef.style.transform=`translateX(-50%) scaleX(-1) translateY(${y*.055}px)`;
+},{passive:true});
+
