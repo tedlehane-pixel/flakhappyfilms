@@ -492,7 +492,7 @@ body::before{
 
 /* Team */
 .t-feat{
-  display:grid;grid-template-columns:1fr 2fr;gap:64px;
+  display:grid;grid-template-columns:1fr 2fr;gap:64px;align-items:start;
   background:var(--t-char);padding:48px 42px;
   border-top:2px solid var(--t-yellow2);margin-bottom:3px;
 }
@@ -519,7 +519,7 @@ body::before{
   margin-bottom:20px;
 }
 .t-photo span{font-family:'Special Elite',cursive;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--t-chrome);opacity:.5;}
-.t-team-grid .t-photo{display:block !important;width:72px;height:72px;border-radius:50%;overflow:hidden;margin-bottom:16px;border:2px solid rgba(200,158,20,.3);flex-shrink:0;}
+.t-team-grid .t-photo{display:block !important;width:86px;height:86px;border-radius:50%;overflow:hidden;border:2px solid rgba(200,158,20,.3);flex-shrink:0;}
 
 /* ═══════════════════════════════════════════
    CONTACT — light world returns
@@ -946,8 +946,8 @@ footer{
         </div>
       </div>
     </div>
-    <div>
-      <div class="t-bio">
+    <div style="padding-top:0;">
+      <div class="t-bio" style="max-width:520px;margin-top:0;padding-top:0;">
         <p>Rosemary Rodriguez is an award-winning director and producer known for navigating both prestige television and independent film with consistent critical recognition. Her debut feature <strong>Acts of Worship</strong> premiered at Sundance and earned two Independent Spirit Award nominations. <strong>Silver Skies</strong>, executive produced by Fred Roos (<em>The Godfather</em>), won multiple festival awards. Her most recent feature, <strong>Hail Mary</strong> starring Jack Huston, premiered at SXSW with a 100% Rotten Tomatoes rating.</p>
         <p>Her television credits include <em>Your Honor, The Walking Dead, Peacemaker, Jessica Jones,</em> and <em>The Good Wife.</em> She served as Executive Producer/Director on Apple's <em>Home Before Dark.</em></p>
         <p>She brings the formal precision of prestige episodic television and the emotional authority of her independent features to every project — the exact combination TURRET demands from its confined perspective and demanding 20-day shooting schedule.</p>
@@ -957,37 +957,42 @@ footer{
 
   <div class="t-team-grid">
     <div class="t-card rv">
-      <div class="t-photo"><img src="B6C090B2-3C64-4CDC-A025-CAA394663F70.png" alt="Lauren Bratman" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
-      <div class="t-role">Lead Producer</div>
-      <div class="t-name">Lauren Bratman</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div><div class="t-role">Lead Producer</div><div class="t-name">Lauren Bratman</div></div>
+        <div class="t-photo"><img src="B6C090B2-3C64-4CDC-A025-CAA394663F70.png" alt="Lauren Bratman" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
+      </div>
       <div class="t-bio"><strong>The Stanford Prison Experiment</strong> (Sundance · Alfred P. Sloan Award), <strong>Mainstream</strong> (dir. Gia Coppola), <strong>The Accompanist, C.O.G., Crash Pad, Return to Sender.</strong> A proven champion of director-driven, character-focused storytelling.</div>
       <div class="t-tags" style="margin-top:14px;"><span class="t-tag">Sundance</span><span class="t-tag">Sloan Award</span></div>
     </div>
     <div class="t-card rv d1">
-      <div class="t-photo"><img src="C5751CCA-41CF-48A3-A7E4-24899228F235.png" alt="Ted Lehane" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
-      <div class="t-role">Producer</div>
-      <div class="t-name">Ted Lehane</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div><div class="t-role">Producer</div><div class="t-name">Ted Lehane</div></div>
+        <div class="t-photo"><img src="C5751CCA-41CF-48A3-A7E4-24899228F235.png" alt="Ted Lehane" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
+      </div>
       <div class="t-bio">30+ years across independent film, documentary, and network television. Co-founder, Flak Happy Films. Credits include <strong>Spanking the Monkey, High Art, Madam Secretary,</strong> and <strong>Manifest.</strong> This film is personal — and it shows in every decision.</div>
       <div class="t-tags" style="margin-top:14px;"><span class="t-tag">Flak Happy Films</span><span class="t-tag">30+ Years</span></div>
     </div>
     <div class="t-card rv">
-      <div class="t-photo"><img src="21BB76C3-3DF1-4919-9715-0690E0AF934B.png" alt="Timothy Bellen" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
-      <div class="t-role">Writer / Cinematographer</div>
-      <div class="t-name">Timothy Bellen</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div><div class="t-role">Writer / Cinematographer</div><div class="t-name">Timothy Bellen</div></div>
+        <div class="t-photo"><img src="21BB76C3-3DF1-4919-9715-0690E0AF934B.png" alt="Timothy Bellen" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
+      </div>
       <div class="t-bio">DP on Apple's <strong>Dear Edward,</strong> Amazon's <strong>As We See It,</strong> HBO's <strong>Veep,</strong> <em>Rise of the Planet of the Apes, Bottleshock, Montana Story.</em> Directed Fox's <em>Almost Family.</em> The writer who sees every frame before writing it.</div>
       <div class="t-tags" style="margin-top:14px;"><span class="t-tag">Apple</span><span class="t-tag">Amazon</span><span class="t-tag">HBO</span></div>
     </div>
     <div class="t-card rv d1">
-      <div class="t-photo"><img src="90C43D8F-473D-4E4F-A2FA-DC0B07CCEBCC.png" alt="Chris Haifley" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
-      <div class="t-role">Co-Writer / Producer</div>
-      <div class="t-name">Chris Haifley</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div><div class="t-role">Co-Writer / Producer</div><div class="t-name">Chris Haifley</div></div>
+        <div class="t-photo"><img src="90C43D8F-473D-4E4F-A2FA-DC0B07CCEBCC.png" alt="Chris Haifley" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
+      </div>
       <div class="t-bio">Eight years in the U.S. Army. <strong>Ronnie</strong> — Slamdance finalist. Military-based TV series in development with Bryan Cranston and Moonshot Entertainment. The writer who has been inside the pressure this story demands.</div>
       <div class="t-tags" style="margin-top:14px;"><span class="t-tag">U.S. Army Veteran</span><span class="t-tag">Slamdance</span></div>
     </div>
     <div class="t-card rv d2">
-      <div class="t-photo"><img src="C0AD885B-DF91-43D1-AF22-EE5378BE3F6D.png" alt="Bob Lehane" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
-      <div class="t-role">Executive Producer</div>
-      <div class="t-name">Bob Lehane</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
+        <div><div class="t-role">Executive Producer</div><div class="t-name">Bob Lehane</div></div>
+        <div class="t-photo"><img src="C0AD885B-DF91-43D1-AF22-EE5378BE3F6D.png" alt="Bob Lehane" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
+      </div>
       <div class="t-bio">Partner, <strong>Kelley Drye & Warren LLP</strong> (New York). Managing Member, Flak Happy Films. Director, META Advisors LLP. A lifelong WWII aviation historian whose passion for this story is in the DNA of the project.</div>
       <div class="t-tags" style="margin-top:14px;"><span class="t-tag">Kelley Drye & Warren</span><span class="t-tag">META Advisors</span></div>
     </div>
